@@ -15,14 +15,16 @@ Created on Fri Nov  1 14:27:30 2019
 """
 
 # Importing the libraries
+import pandas as pd
 
 from __future__ import absolute_import
-from utils import accuracy
-import pandas as pd
+
+from utils import k_fold_cv
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import KFold
+import sklearn.model_selection
+
 
 # Import the dataset
 df = pd.read_csv('data/preprocessing_data.csv')
@@ -55,8 +57,8 @@ y = df.iloc[:, 4].values
 
 # encode labels with value between 0 and n_classes-1.
 le = LabelEncoder()
-# 2/3. FIT AND TRANSFORM
-# use df.apply() to apply le.fit_transform to all columns
+
+# Fit and Transform the values
 y = df.iloc[:, 4].values
 y = le.fit_transform(y)
 
@@ -69,7 +71,7 @@ y = df.iloc[:, 4].values
 
 # k-fold cross validation - 5 folds:
 k_fold_cv(list(df.index.values))
-   
+ 
 
 # Using scikit-learn
 kf = KFold(n_splits=5, random_state=42, shuffle=True)
