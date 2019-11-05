@@ -52,7 +52,6 @@ def accuracy (tp, fp, fn, tn):
     accuracy = ((tp + tn) / (tp + tn + fp + fn))
     return (accuracy)
     
-
 # Função que calcula a precisão 
 def precision (tp, fp):
     precision =  (tp / (tp + fp))
