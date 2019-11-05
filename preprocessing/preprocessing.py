@@ -3,43 +3,34 @@
 Created on Fri Nov  1 14:27:30 2019
 
 @author: Jairo Souza
-"""
 
-"""
-    #SEMANA 1
-    Slide 8 -> limpeza dos dados: missing data (trocar valores NaN por media/mediana), normalização, quebrar as colunas, 
-    plots de distribução dos dados; (pandas)
+    Script responsável pelo pré-processamento dos dados.
     
-    Matriz de confusão-> implementar as funções; [vetor: tp, fp, tn, fn] -> 5 funçoes.
-    fazer uma k-fold que mostre a divisão do conj. treinamento/teste (5-folds);
 """
 
 # Importing the libraries
-import pandas as pd
-
 from __future__ import absolute_import
-
-from utils import k_fold_cv
+import pandas as pd
+from utils import k_fold_cv, feature_scaling
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-import sklearn.model_selection
+from sklearn.model_selection import KFold
 
 
-# Import the dataset
+# Importando o Dataset
 df = pd.read_csv('data/preprocessing_data.csv')
 
-# Exploring the dataset
+# Exporando o dataset
 df.describe()
 
 df.head(5)
 
-# Distribution of nuimeric variables
+# Visualizando a distribuição das features
 df.boxplot()
 
 df.hist()
 
-# Fill NA with 0, median or mean.
+# Preenchendo os registros nuḿericos que não possuem valores com a media , mediana ou zeros.
 
 df.fillna(df.mean())
 
@@ -47,43 +38,40 @@ df.fillna(df.median())
 
 df.fillna(0)
 
+# Preenchendo com a mediana
 df = df.fillna(df.median())
 
-# Defining the dependend and dependent variables
+# Definindo as variáveis dependentes e independentes
 X = df.iloc[:, :-1].values
 y = df.iloc[:, 4].values
 
-# Encoding the categorical values of dependent and independent variables
-
-# encode labels with value between 0 and n_classes-1.
+# Codificando os valores das variáveis dependente (y) com valores númericos.
 le = LabelEncoder()
 
-# Fit and Transform the values
+# Ajustando e transformando o valor de y.
 y = df.iloc[:, 4].values
 y = le.fit_transform(y)
 
-# Some machine learning techniques require you to drop one dimension from the representation so as 
-# to avoid dependency among the variables. Use "drop_first=True" to achieve that.
-
-# Independent variables:
+# Criando variaǘeis Dummy
+# Obs: Algumas técnicas de aprendizado de máquina exigem que você elimine uma dimensão da apresentação 
+# para evitar a dependência entre as variáveis. Isso pode ser feito através do parâmetro "drop_first = True".
 X = pd.get_dummies(df.iloc[:, :-1] ,prefix=['city', 'sex'], drop_first=True).values
 y = df.iloc[:, 4].values
 
-# k-fold cross validation - 5 folds:
+# Usando a função para definir os indices de uma validação cruzada com 5 folds.
 k_fold_cv(list(df.index.values))
  
 
-# Using scikit-learn
+# Calidação cruzada com 5 folds usando o sklearn
 kf = KFold(n_splits=5, random_state=42, shuffle=True)
 for train_index, test_index in kf.split(X):
-    print("TRAIN:", train_index, "TEST:", test_index)
+    print("Indices de Treinamento:", train_index, "Indices de Testes:", test_index)
     #X_train, X_test = X[train_index], X[test_index]
     #y_train, y_test = y[train_index], y[test_index]
 
 
-# Splitting the dataset 
+# Dividindo o dataset no conjunto de treinamento (80%) e testes (20%)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
 
-# Feature Scaling
-sc = StandardScaler()
-X = sc.fit_transform(X)
+# Aplicando a normalização/escalonamento das features
+X = feature_scaling(X)

@@ -3,6 +3,9 @@
 Created on Sun Nov  3 10:25:30 2019
 
 @author: Jairo Souza
+
+    Script contendo funções de apoio aos pré-processamento dos dados, métricas e gráficos.
+    
 """
 
 import random
@@ -12,9 +15,23 @@ from matplotlib.colors import ListedColormap
 from sklearn.preprocessing import StandardScaler
 
 
-# Function to return k_fold_cv values
 def k_fold_cv(indexes, k = 5, seed = 42):
     
+    """Função que retorna os indices do validação cruzada em k folds
+
+    Parâmetros
+    ----------
+    
+    indexes : array
+        Indices do dataframe
+    
+    k : int, optional, default=5
+        Numero de folds. Deve ser pelo menos 2.
+    
+    seed : int, optional, default=42
+        È o valor usado pelo gerador de números aleatórios;
+     """ 
+        
     size = len(indexes)
     subset_size = round(size / k)
     random.Random(seed).shuffle(indexes)
@@ -28,55 +45,55 @@ def k_fold_cv(indexes, k = 5, seed = 42):
                 train.append(subset)
         kfolds.append((train,test))
         
-    return kfolds
+    return ("Indices de Treinamento:", train, "Indices de Testes:", test)
 
-# accuracy of models
+# Função que calcula acurácia do modelo
 def accuracy (tp, fp, fn, tn):
     accuracy = ((tp + tn) / (tp + tn + fp + fn))
     return (accuracy)
     
 
-# precision or positive predictive value (PPV)
+# Função que calcula a precisão 
 def precision (tp, fp):
     precision =  (tp / (tp + fp))
     return precision
 
-# sensitivity, recall, hit rate, or true positive rate (TPR)
+# Função que calcula o recall
 def recall(tp, fn):
     recall =  (tp / (tp + fn))
     return recall
 
-# is the harmonic mean of precision and sensitivity
+# Função que calcula o f-measure (media harmonica entre precision e recall)
 def f_measure(tp, fp, fn):
     f_measure = (2 * precision(tp, fp) * recall(tp, fn)) / (recall(tp, fn) + precision(tp, fp))
     return f_measure
 
-# specificity, selectivity or true negative rate (TNR)
+# Função que calcula a taxa de verdadeiro negativo
 def true_neg_rate(fp, tn):
     true_neg_rate = (tn / (tn + fp))
     return true_neg_rate
 
-#  negative predictive value (NPV)
+# Função que calcula os valores negativos previstos (Negative Predictive Value - NPV)
 def neg_pred_value(fn, tn):
     neg_pred_value = (tn / (tn + fn))
     return neg_pred_value
 
-# Informedness or Bookmaker Informedness (BM)
+# Função que calcula o Informedness 
 def informedness(tp, fp, fn, tn):
     inform = (recall(tp, fn) + true_neg_rate(tn, fp)) - 1
     return inform
 
-# Markedness (MK)
+# Função que calcula o Markedness
 def markdness(tp, fp, fn, tn):    
     mark = (precision(tp, fp) + neg_pred_value(tn, fn)) - 1
     return mark
 
-# feature scaling 
+# Função de escalonamento
 def feature_scaling(data):
     sc = StandardScaler()
     return sc.fit_transform(data)
 
-# Plotting the Classification results 
+# Função que gera o gráfico dos resultados de classificação
 def plot_results_class(X, y, classifier, title):
     X_set, y_set = X, y
     X1, X2 = np.meshgrid(np.arange(start = X_set[:, 0].min() - 1, stop = X_set[:, 0].max() + 1, step = 0.01),
@@ -89,26 +106,26 @@ def plot_results_class(X, y, classifier, title):
         plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
                     c = ListedColormap(('red', 'green'))(i), label = j)
     plt.title(title)
-    plt.xlabel('Age')
-    plt.ylabel('Fare')
+    plt.xlabel('Idade')
+    plt.ylabel('Tarifa')
     plt.legend()
     plt.show()
     
-# Plotting the Regression results
+# Função que gera o gráfico dos resultados de regressão
 def plot_results_linear(X, y, regressor, title):
     plt.scatter(X, y, color = 'red')
     plt.plot(X, regressor.predict(X), color = 'blue')
     plt.title(title)
-    plt.xlabel('Lot Area')
-    plt.ylabel('Sale Price')
+    plt.xlabel('Tamanho do Lote')
+    plt.ylabel('Preço de Vendas')
     plt.show()
  
-# Visualising the Polynomial Regression results    
+# Função que gera o gráfico dos resultados de regerssão polinomial
 def plot_results_poly(X, y, lin_reg_poly, poly_reg, title):
     plt.scatter(X, y, color = 'red')
     plt.plot(X, lin_reg_poly.predict(poly_reg.fit_transform(X)), color = 'blue')
     plt.title(title)
-    plt.xlabel('Lot Area')
-    plt.ylabel('Sale Price')
+    plt.xlabel('Tamanho do Lote')
+    plt.ylabel('Preço de Vendas')
     plt.show()    
         
