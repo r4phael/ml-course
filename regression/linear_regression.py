@@ -37,7 +37,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 regressor = LinearRegression()
 regressor.fit(X_train, y_train)
 
-# Avaliando o modelo com a métrixa r2
+# Avaliando o modelo com a métrica r2
 regressor.score(X_test, y_test)
 
 # Prevendo os resultados com o conjunto de testes

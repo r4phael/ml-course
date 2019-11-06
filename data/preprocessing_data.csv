@@ -1,11 +1,11 @@
-City,Age,Salary,Sex,Acquired
-Maceio,42,6500,M,No
-Sao Paulo,21,4300,F,Yes
-Brasilia,28,4900,F,No
-Recife,35,5400,F,No
-Rio de Janeiro,38,,M,Yes
-Curitiba,33,5200,M,Yes
-Belo Horizonte,,4700,F,No
-Manaus,45,7100,M,Yes
-Para,51,7500,F,No
-Fortaleza,39,6000,M,Yes
+Name,City,Age,Salary,Sex,Acquired
+Jose,Paraiba,42,6500,M,No
+Maria,Sao Paulo,21,4300,F,Yes
+Daniella,Brasilia,28,4900,F,No
+Fernanda,Recife,35,5400,F,No
+Antonio,Maceio,38,,M,Yes
+Rafael,Sao Paulo,33,5200,M,Yes
+Priscilla,Belo Horizonte,,4700,F,No
+Fernando,Sao Paulo,45,7100,M,Yes
+Renata,Paraiba,51,7500,F,No
+Miguel,Fortaleza,39,6000,M,Yes
