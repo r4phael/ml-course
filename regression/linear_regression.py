@@ -14,6 +14,8 @@ from sklearn.linear_model import LinearRegression
 
 # Importando os dados
 df = pd.read_csv('data/pricing_houses.csv')
+
+# Selecionando uma amostragem dos dados para melhor visualização
 df = df.loc[:, ['LotArea', 'PoolArea', 'GarageArea', 'OverallCond','YearBuilt', 'MSZoning', 'SalePrice']].sample(n=60, random_state=0, weights = 'SalePrice')
 # df.to_csv('data/pricing_houses_small.csv')
 
@@ -42,7 +44,6 @@ regressor.score(X_test, y_test)
 
 # Prevendo os resultados com o conjunto de testes
 y_pred = regressor.predict(X_test)
-
 
 # Visualizando os resultados do conjunto de treinamento
 plot_results_linear(X_train, y_train, regressor, 'Regressão Linear (Conj. de Treinamento)')

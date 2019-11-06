@@ -5,7 +5,7 @@ Created on Sat Nov  2 22:04:07 2019
 @author: Jairo Souza
 """
 
-# Importing the packages
+# Importando os pacotes
 from __future__ import absolute_import
 from utils import plot_results_class, accuracy, f_measure, feature_scaling
 import pandas as pd
@@ -14,48 +14,52 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 from sklearn.linear_model import LogisticRegression
 
-# Importing the data
+# Importando os dados
 df = pd.read_csv('data/titanic.csv')
 
-# Visualizing the dataset
+# Selecionando uma amostragem dos dados para melhor visualização
+df = df.sample(n=100, random_state=0)
+
+# Descrevendo o dataset
 df.describe()
 
-# Visualizing the dataset
+# Visualizando o dataset
+df.head(5)
+
+# Preenchendo os valores númericos nulos (NA) com a mediana.
 df = df.fillna(df.median())
 
-# Defining the independent/dependent variables:
+# Definindo as variáveis dependentes/independentes.
 X = df.iloc[:, [5, 9]].values
 y = df.iloc[:, 1].values
 
-# Splitting the dataset in training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+# Criando os subconjuntos de treinamento e testes
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
 
-# Scaling the features
+# Normalizando as features 
 X_train = feature_scaling(X_train)
 X_test = feature_scaling(X_test)
 
-# Fitting the Logistic regression classifier with Training set
+# Treinando o modelo de Árvore de Decisão com o Conjunto de Treinamento
 classifier = LogisticRegression(random_state = 0)
 classifier.fit(X_train, y_train)
 
-# Predicting the results with  Test set
+# Prevendo os resultados do modelo criado com o conjunto de testes
 y_pred = classifier.predict(X_test)
 
-# Making the confusion matrix
+# Criando a matriz de confusão com o conjunto de testes 
 tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
 
-# Metrics - accuracy using our functions and sklearn
+# Visualizando a métrica de acurácia através das funções criandas e da bibilioteca sklearn
 accuracy(tp, fp, fn, tn)
 classifier.score(X_test, y_test)
 
-# Metrics - f1_score using our functions and sklearn
+# Exibindo o f-measure
 f_measure(tp, fp, fn)
 f1_score(y_test, y_pred)  
 
+# Exibindo os resultados do conjunto de treinamento
+plot_results_class(X_train, y_train, classifier, 'Regressão Logística (Conj. de Treinamento)')
 
-# Plotting the training set results
-plot_results_class(X_train, y_train, classifier, 'Logistic Regression (Training set)')
-
-# Plotting the test set results
-plot_results_class(X_test, y_test, classifier, 'Logistic Regression (Test set)')# -*- coding: utf-8 -*-
-
+# Exibindo os resultados do conjunto de testes
+plot_results_class(X_test, y_test, classifier, 'Regressão Logística (Conj. de Testes)')

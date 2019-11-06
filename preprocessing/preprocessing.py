@@ -21,6 +21,8 @@ from sklearn.model_selection import KFold
 df = pd.read_csv('data/preprocessing_data.csv')
 
 # Exporando o dataset
+df.info()
+
 df.describe()
 
 df.head(5)

@@ -5,46 +5,48 @@ Created on Sat Nov  2 22:04:07 2019
 @author: Jairo Souza
 """
 
-# Importing the packages
+# Importando as packages
 from __future__ import absolute_import
-from utils import plot_results_linear
+from utils import plot_results_reg
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 
-# Importing the data
+# Importando os dados
 df = pd.read_csv('data/pricing_houses.csv')
+
+# Selecionando uma amostragem dos dados para melhor visualização
 df = df.loc[:, ['LotArea', 'PoolArea', 'GarageArea', 'OverallCond','YearBuilt', 'MSZoning', 'SalePrice']].sample(n=60, random_state=0, weights = 'SalePrice')
 # df.to_csv('data/pricing_houses_small.csv')
 
-# Visualizing the dataset
+# Visualizando e descrevendo  o dataset
 df.describe()
 
 df.head(5)
 
-# Defining the independent/dependent variables:
-X = df.loc[:, ['LotArea']].values
+# Definindo as variáveis indepedentes e dependentes
+X = df.loc[:, 'LotArea'].values.reshape(-1,1)
 y = df.loc[:, 'SalePrice'].values.reshape(-1,1)
 
-# Splitting the dataset in training and test sets
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+# Dividindo o dataset em conjunto de treinamento e testes
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
 
-# Scaling the features
+# Normalização das features
 # X_train = feature_scaling(X_train)
-# X_test = feature_scaling(X_test)
+ #X_test = feature_scaling(X_test)
 
-# Fitting the Simple Linear Regression with Training set
+# Treinando o modelo de regressão linear com o conjunto de treinamento
 regressor = DecisionTreeRegressor(random_state = 0)
-regressor.fit(X, y)
+regressor.fit(X_train, y_train)
 
+# Avaliando o modelo com a métrica r2
+regressor.score(X_test, y_test)
 
-# Metrics - score of regressor r^2
-regressor.score(X, y)
+# Prevendo os resultados com o conjunto de testes
+y_pred = regressor.predict(X_test)
 
-# Predicting results from regressor
-y_pred = regressor.predict(X)
+# Visualizando os resultados do conjunto de treinamento
+plot_results_reg(X_train, y_train, regressor, 'Arvore de Decisão (Conj. de Treinamento)')
 
-
-# Comparing results from regressors: linear and poly
-# Plotting the results of linear regression:
-plot_results_linear(X, y, regressor, 'Linear Regression Results')
+# Visualizando os resultados do conjunto de testes
+plot_results_reg(X_test, y_test, regressor, 'Arvore de Decisão (Conj. de Testes)')

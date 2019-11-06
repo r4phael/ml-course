@@ -3,7 +3,6 @@
 Created on Sat Nov  2 22:04:07 2019
 
 @author: Jairo Souza
-
 """
 
 # Importando os pacotes
@@ -12,11 +11,14 @@ from utils import plot_results_class, accuracy, f_measure, feature_scaling
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import f1_score
+from sklearn.tree import DecisionTreeClassifier
 
 # Importando os dados
 df = pd.read_csv('data/titanic.csv')
+
+# Selecionando uma amostragem dos dados para melhor visualização
+df = df.sample(n=100, random_state=0)
 
 # Descrevendo o dataset
 df.describe()
@@ -32,7 +34,7 @@ X = df.iloc[:, [5, 9]].values
 y = df.iloc[:, 1].values
 
 # Criando os subconjuntos de treinamento e testes
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
 
 # Normalizando as features 
 X_train = feature_scaling(X_train)

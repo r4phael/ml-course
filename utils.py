@@ -13,6 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from sklearn.preprocessing import StandardScaler
+import seaborn as sns; sns.set()
 
 
 def k_fold_cv(indexes, k = 5, seed = 42):
@@ -118,7 +119,7 @@ def plot_results_linear(X, y, regressor, title):
     plt.xlabel('Tamanho do Lote')
     plt.ylabel('Preço de Vendas')
     plt.show()
- 
+
 # Função que gera o gráfico dos resultados de regerssão polinomial
 def plot_results_poly(X, y, lin_reg_poly, poly_reg, title):
     plt.scatter(X, y, color = 'red')
@@ -127,4 +128,15 @@ def plot_results_poly(X, y, lin_reg_poly, poly_reg, title):
     plt.xlabel('Tamanho do Lote')
     plt.ylabel('Preço de Vendas')
     plt.show()    
-        
+    
+# Função que gera o gráfico dos resultados de arvores
+def plot_results_reg(X, y, regressor, title):     
+    X_grid = np.arange(min(X), max(X), 0.01)
+    X_grid = X_grid.reshape((len(X_grid), 1))
+    plt.scatter(X, y, color = 'red')
+    plt.plot(X_grid, regressor.predict(X_grid), color = 'blue')
+    plt.title(title)
+    plt.xlabel('Tamanho do Lote')
+    plt.ylabel('Preço de Vendas')
+    plt.show()
+     

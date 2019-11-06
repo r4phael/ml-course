@@ -13,47 +13,51 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 
-# Importing the data
+# Importando os dados
 df = pd.read_csv('data/pricing_houses.csv')
-df = df.loc[:, ['LotArea', 'PoolArea', 'GarageArea', 'OverallCond','YearBuilt', 'MSZoning', 'SalePrice']].sample(n=60, random_state=0, weights = 'SalePrice')
+
+# Selecionando uma amostragem dos dados para melhor visualização
+df = df.loc[:, ['LotArea', 'PoolArea', 'GarageArea', 'OverallCond','YearBuilt', 'MSZoning', 'SalePrice']].sample(n=30, random_state=0, weights = 'SalePrice')
 # df.to_csv('data/pricing_houses_small.csv')
 
-# Visualizing the dataset
+# Visualizando e descrevendo  o dataset
 df.describe()
 
 df.head(5)
 
-# Defining the independent/dependent variables:
-X = df.loc[:, ['LotArea']].values
+# Definindo as variáveis indepedentes e dependentes
+X = df.loc[:, 'LotArea'].values.reshape(-1,1)
 y = df.loc[:, 'SalePrice'].values.reshape(-1,1)
 
-# Splitting the dataset in training and test sets
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+# Dividindo o dataset em conjunto de treinamento e testes
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
 
-# Scaling the features
+# Normalização das features
 # X_train = feature_scaling(X_train)
-# X_test = feature_scaling(X_test)
+ #X_test = feature_scaling(X_test)
 
-# Fitting the Simple Linear Regression with Training set
+# Treinando o modelo de regressão linear com o conjunto de treinamento
 regressor = LinearRegression()
 regressor.fit(X, y)
 
-
-# Fitting the Polynomial Regression with Training set
+# Transformando as features na ordem polinomial - 4
 poly_reg = PolynomialFeatures(degree = 4)
 X_poly = poly_reg.fit_transform(X)
 poly_reg.fit(X_poly, y)
 
+# Treinando o modelo de regressão polynomial com o conjunto de treinamento
 lin_reg_poly = LinearRegression()
 lin_reg_poly.fit(X_poly, y)
 
-# Metrics - score of regressor r^2
+# Avaliando o modelo com a métrica r2
 lin_reg_poly.score(X_poly, y)
 
-# Predicting results from regressor
+# Prevendo os resultados com o conjunto de testes
 y_pred = lin_reg_poly.predict(X_poly)
 
+# Comprando os resultados entre a regressão linear e polinomial
+# Visualizando os resultados da regressão linear:
+plot_results_linear(X, y, regressor, 'Regressão Linear')
 
-# Comparing results from regressors: linear and poly
-# Plotting the results of linear regression:
-plot_results_linear(X, y, regressor, 'Linear Regression Results')
+# Visualizando os resultados da regressão linear polinomial:
+plot_results_poly(X, y, lin_reg_poly, poly_reg, 'Regressão Polynomial')

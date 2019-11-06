@@ -5,7 +5,7 @@ Created on Sat Nov  2 22:04:07 2019
 @author: Jairo Souza
 """
 
-# Importing the packages
+# Importando as packages
 from __future__ import absolute_import
 import pandas as pd
 import numpy as np
@@ -13,40 +13,39 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import statsmodels.regression.linear_model as sm
 
-# Importing the data
+# Importando os dados
 df = pd.read_csv('data/pricing_houses.csv')
 df = df.loc[:, ['LotArea', 'PoolArea', 'GarageArea', 'OverallCond','YearBuilt', 'MSZoning', 'SalePrice']].sample(n=60, random_state=0, weights = 'SalePrice')
 # df.to_csv('data/pricing_houses_small.csv')
 
-# Visualizing the dataset
+# Visualizando e descrevendo  o dataset
 df.describe()
 
 df.head(5)
 
-# Encoding the categorical features and avoiding the Dummy variable trap
+# Codificando as variáveis Categóricos e evitando a armadilha da variável Dummy
 df = pd.get_dummies(df , columns = ['MSZoning'], drop_first=True)
 
-# Defining the independent/dependent variables:
+# Definindo as variáveis indepedentes e dependentes
 X = df[df.columns[~df.columns.isin(['SalePrice'])]].values
 y = df['SalePrice'].values.reshape(-1,1)
 
-# Splitting the dataset in training and test sets
+# Dividindo o dataset em conjunto de treinamento e testes
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
 
-# Scaling the features
+# Normalização das features
 # X_train = feature_scaling(X_train)
 # X_test = feature_scaling(X_test)
 
-# Fitting the Multiple Linear Regression with Training set
+# Treinando o modelo de regressão linear multipla com o conjunto de treinamento
 regressor = LinearRegression()
 regressor.fit(X_train, y_train)
 
-# Predicting results from regressor
-y_pred = regressor.predict(X_test)
-
-# Metrics - score of regressor r^2
+# Avaliando o modelo com a métrica r2
 regressor.score(X_test, y_test)
 
+# Prevendo os resultados com o conjunto de testes
+y_pred = regressor.predict(X_test)
 
 # Backaward Elimination:
 X = np.append(arr = np.ones((60,1)).astype(int), values = X, axis =1)
