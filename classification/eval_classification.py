@@ -27,7 +27,7 @@ df.info()
 # Visualizando o dataset
 df.head(5)
 
-# Deletando as f eatures que não tem importância no modelo: Nome, Código do Ticket e Código da Cabine:
+# Deletando as features que não tem importância no modelo: Nome, Código do Ticket e Código da Cabine:
 df = df.drop(['Name','Ticket','Cabin', 'PassengerId'], axis = 1)
 
 # Preenchendo os valores númericos nulos (NA) com a mediana.
@@ -50,7 +50,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 X_train = feature_scaling(X_train)
 X_test = feature_scaling(X_test)
 
-# Criando o vetor contendo todos os classificadores
+# Criando o dicionário contendo todos os classificadores
 estimators = {'Decision Tree': DecisionTreeClassifier(criterion = 'entropy', random_state = 0),
               'KNN': KNeighborsClassifier(n_neighbors = 5, metric = 'minkowski', p = 2),
               'Logistic Regression': LogisticRegression(random_state = 0),

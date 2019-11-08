@@ -49,6 +49,6 @@ y_pred = regressor.predict(X_test)
 
 # Backaward Elimination:
 X = np.append(arr = np.ones((60,1)).astype(int), values = X, axis =1)
-X_opt = X[:, [0,1,2,3,4,5,6,8,9]]
+X_opt = X[:, [0,1,2,3,4,5,6,8]]
 regressor_ols = sm.OLS(endog = y, exog = X_opt).fit()
 regressor_ols.summary()

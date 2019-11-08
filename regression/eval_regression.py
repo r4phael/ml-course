@@ -43,7 +43,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 # X_train = feature_scaling(X_train)
 # X_test = feature_scaling(X_test)
 
-# Criando o vetor contendo todos os regressores
+# Criando o dicionário contendo todos os regressores
 regressors = {'Linear Regression': LinearRegression(),
               'Decision Tree Reg:': DecisionTreeRegressor(random_state = 0),
               'Random Forest Reg': RandomForestRegressor(n_estimators = 10, random_state = 0),
@@ -64,4 +64,5 @@ for name, reg in regressors.items():
     df_results.loc[len(df_results), :] = [name, reg.score(X_test, y_test), 
                    mean_squared_error(y_test, y_pred), mean_squared_log_error(y_test, y_pred)]
 
+# Exibindo os resultados:
 df_results
