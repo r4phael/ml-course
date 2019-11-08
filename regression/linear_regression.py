@@ -11,6 +11,7 @@ from utils import plot_results_linear
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, mean_squared_log_error
 
 # Importando os dados
 df = pd.read_csv('data/pricing_houses.csv')
@@ -44,6 +45,13 @@ regressor.score(X_test, y_test)
 
 # Prevendo os resultados com o conjunto de testes
 y_pred = regressor.predict(X_test)
+
+# Avaliando a efetividade do modelo com a métrica Root Means Squared Error (RMSE)
+mean_squared_error(y_test, y_pred)
+
+# Avaliando a efetividade do modelo com a métrica Means Squared Logarithmic Error
+# É melhor usar essa métrica quando as metas tiverem crescimento exponencial
+mean_squared_log_error(y_test, y_pred)
 
 # Visualizando os resultados do conjunto de treinamento
 plot_results_linear(X_train, y_train, regressor, 'Regressão Linear (Conj. de Treinamento)')

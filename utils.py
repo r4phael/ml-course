@@ -48,44 +48,51 @@ def k_fold_cv(indexes, k = 5, seed = 42):
         
     return ("Indices de Treinamento:", train, "Indices de Testes:", test)
 
+
+# Função que calcula os reais positivos
+def rp(tp, fn):
+    return tp + fn
+
+# Função que calcula os reais negativos     
+def rn(fp, tn):
+    return fp + tn
+
+# Função que calcula as predicoes positivas  
+def pp(tp, fp):
+    return tp + fp
+
+# Função que calcula as predicoes negativas   
+def pn(fn, tn):
+    return fn + tn
+
 # Função que calcula acurácia do modelo
 def accuracy (tp, fp, fn, tn):
-    accuracy = ((tp + tn) / (tp + tn + fp + fn))
-    return (accuracy)
+     accuracy = ((tp + tn) / (tp + tn + fp + fn))
+     return (accuracy)
     
 # Função que calcula a precisão 
 def precision (tp, fp):
-    precision =  (tp / (tp + fp))
+    precision =  (tp / (tp + fp)) #predições positivas
     return precision
 
 # Função que calcula o recall
 def recall(tp, fn):
-    recall =  (tp / (tp + fn))
+    recall =  (tp / (tp + fn)) # reais positivos
     return recall
 
-# Função que calcula o f-measure (media harmonica entre precision e recall)
+## Função que calcula o f-measure (media harmonica entre precision e recall)
 def f_measure(tp, fp, fn):
     f_measure = (2 * precision(tp, fp) * recall(tp, fn)) / (recall(tp, fn) + precision(tp, fp))
     return f_measure
-
-# Função que calcula a taxa de verdadeiro negativo
-def true_neg_rate(fp, tn):
-    true_neg_rate = (tn / (tn + fp))
-    return true_neg_rate
-
-# Função que calcula os valores negativos previstos (Negative Predictive Value - NPV)
-def neg_pred_value(fn, tn):
-    neg_pred_value = (tn / (tn + fn))
-    return neg_pred_value
-
+  
 # Função que calcula o Informedness 
 def informedness(tp, fp, fn, tn):
-    inform = (recall(tp, fn) + true_neg_rate(tn, fp)) - 1
+    inform = ((tp/rp(tp, fn)) - (fp/rn(fp, tn)))
     return inform
 
 # Função que calcula o Markedness
 def markdness(tp, fp, fn, tn):    
-    mark = (precision(tp, fp) + neg_pred_value(tn, fn)) - 1
+    mark = ((tp/pp(tp,fp)) - (fn/pn(fn,tn)))
     return mark
 
 # Função de escalonamento
@@ -139,4 +146,7 @@ def plot_results_reg(X, y, regressor, title):
     plt.xlabel('Tamanho do Lote')
     plt.ylabel('Preço de Vendas')
     plt.show()
+    
+    
+    
      
