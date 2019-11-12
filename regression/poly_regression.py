@@ -2,7 +2,6 @@
 """
 Created on Sat Nov  2 22:04:07 2019
 
-@author: Jairo Souza
 """
 
 # Importing the packages

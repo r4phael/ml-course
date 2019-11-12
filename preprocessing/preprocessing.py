@@ -2,8 +2,6 @@
 """
 Created on Fri Nov  1 14:27:30 2019
 
-@author: Jairo Souza
-
     Script responsável pelo pré-processamento dos dados.
     
 """

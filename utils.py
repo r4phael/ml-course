@@ -2,8 +2,6 @@
 """
 Created on Sun Nov  3 10:25:30 2019
 
-@author: Jairo Souza
-
     Script contendo funções de apoio aos pré-processamento dos dados, métricas e gráficos.
     
 """
@@ -94,6 +92,11 @@ def informedness(tp, fp, fn, tn):
 def markdness(tp, fp, fn, tn):    
     mark = ((tp/pp(tp,fp)) - (fn/pn(fn,tn)))
     return mark
+
+# Função que calcula a taxa de False Positive (TFP)
+def tfp(fp, tn):
+  tfp = (fp / (tn + fp))
+  return tfp
 
 # Função de escalonamento
 def feature_scaling(data):

@@ -1,1 +1,1 @@
-# ml-course
+# Repositório do Curso de Aprendizagem Supervisionada
